@@ -5,7 +5,7 @@ Exemplo de implementação da API BIPBOP via AJAX criado por Pedro Menezes em [a
 
 ### Porque Usar ###
 
-  - Valida o CPF.
+  - Valida o CPF
   - CPFs com formatação válida, mas inexistentes não funcionam
   - Poupa o usuário de digitar seu nome completo
   - Fácil de implementar
