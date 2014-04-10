@@ -1,7 +1,7 @@
 Consulta de CPF via AJAX usando API BIPBOP
 ==========================================
 
-Exemplo de implementação da API BIPBOP via AJAX criado por Pedro Menezes em [artigo](http://pedromenezes.com/como-buscar-nomes-de-pessoas-fisicas-a-partir-de-cpfs-usando-a-api-do-bipbop) para seu blog.
+[Exemplo](https://rawgithub.com/bipbop/consulta-cpf-ajax/master/sample.html "Exemplo de Implementação") de implementação da API BIPBOP via AJAX criado por Pedro Menezes em [artigo](http://pedromenezes.com/como-buscar-nomes-de-pessoas-fisicas-a-partir-de-cpfs-usando-a-api-do-bipbop "Busca de Nomes") para seu blog.
 
 ### Porque Usar ###
 
