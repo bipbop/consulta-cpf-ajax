@@ -1,64 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-<meta charset=utf-8 />
-<title>Exemplo do tutorial Como Buscar Nomes de Pessoas Físicas a Partir de CPFs Usando a API do BipBop</title>
-<style>
-  input {
-    font-size: 15px;
-    width: 300px;
-  }
-</style>
+    <meta charset=utf-8 />
+    <title>Exemplo do tutorial Como Buscar Nomes de Pessoas Físicas a Partir de CPFs Usando a API do BipBop</title>
+    <style>
+      input {
+        font-size: 15px;
+        width: 300px;
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.js"></script>
+    <script src="//irql.bipbop.com.br/js/jquery.bipbop.min.js"></script>
 </head>
 
 <body>
+    <form>
+      <p>
+        <input type="text" name="cpf" id="cpf" placeholder="CPF"></input>
+      </p>
+      <p>
+       <input type="text" name="nascimento" id="nascimento" placeholder="Nascimento dd/mm/YYYY"></input>
+      </p>
+      <p>
+        <input type="text" name="nome" id="nome" placeholder="Nome" disabled="disabled"></input>
+      </p>
 
-<form>
-  <p>
-    <input type="text" name="cpf" id="cpf" placeholder="CPF"></input>
-  </p>
+      <p id="status"></p>
+    </form>
+    <script>
+      $(function(){
+        function validCPF (cpf) {
+          return cpf.match(/^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/);
+        }
 
-  <p>
-    <input type="text" name="nome" id="nome" placeholder="Nome" disabled="disabled"></input>
-  </p>
+        $("#nascimento").mask("00/00/0000");
+        $("#cpf").mask("000.000.000-00");
 
-  <p id="status"></p>
-</form>
+        $('#cpf, #nascimento').on('input', function(){
+          var cpf = $("#cpf").val(),
+            nascimento = $("#nascimento").val();
 
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://irql.bipbop.com.br/js/jquery.bipbop.min.js"></script>
+          if (validCPF(cpf) && /^\d{2}\/\d{2}\/\d{4}$/.test(nascimento)) {
+            $().bipbop("SELECT FROM 'BIPBOPJS'.'CPFCNPJ'", null, {
+              data: {
+                  documento: cpf,
+                  nascimento: nascimento
+              },
 
-<script>
-  $(function(){
-    function validCPF (cpf) {
-      return cpf.match(/^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/);
-    }
+              success: function(data) {
+                var nome = $(data).find("body nome").text();
+                var exception = $(data).find("header exception").text();
 
-    BIPBOP_KEY = 'c09a99c7982f40408bf5488d6ed8c5cd';
-
-    $('#cpf').keyup(function(){
-      var cpf = this.value;
-
-      if (validCPF(cpf)) {
-        $().bipbop("SELECT FROM 'BIPBOPJS'.'CPFCNPJ'", BIPBOP_KEY, {
-          data: { documento: cpf },
-
-          success: function(data) {
-            var nome = $(data).find("body nome").text();
-            var exception = $(data).find("header exception").text();
-
-            if (exception) {
-              exception = exception.replace(/, t/, '. T');
-              $('#status').text(exception);
-            } else {
-              $("#nome").val(nome);
-            }
+                if (exception) {
+                  exception = exception.replace(/, t/, '. T');
+                  $('#status').text(exception);
+                } else {
+                  $("#nome").val(nome);
+                }
+              }
+            });
           }
         });
-      }
-    });
-  });
-</script>
+      });
+    </script>
 </body>
 </html>
